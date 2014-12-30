@@ -5,11 +5,14 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('login', { title: 'Login' });
+
+  res.render('login', { title: 'Login', failed: req.query.failed });
 });
 
-router.post('/', passport.authenticate('local'), function(req, res) {
-  res.redirect('../');
-});
+router.post('/', passport.authenticate('local', 
+  { successRedirect: '/',
+    failureRedirect: '/login?failed=true',
+    failureFlash: "Login failure" })
+);
 
 module.exports = router;
