@@ -1,11 +1,21 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
+module.exports = function(express, passport) {
 
-/* GET home page. */
-//passport.authenticate('local'), 
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Mesharet' });
-});
+  var router = express.Router();
 
-module.exports = router;
+  /* GET home page. */
+  router.get('/', isLoggedIn,
+    function(req, res) {
+      res.render('index', { title: 'Mesharet' });
+  });
+
+  return router;
+};
+
+function isLoggedIn(req, res, next) {
+  if(req.isAuthenticated())
+    return next();
+
+  console.log('Not authenticated, redirecting...')
+  res.redirect('/login');
+}
+

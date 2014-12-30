@@ -7,18 +7,19 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var flash = require('connect-flash');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var login = require('./routes/login');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+
+var routes = require('./routes/index');
+var users = require('./routes/users');
+var login = require('./routes/login');
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
         console.log("Username: " + username);
         if(password === "tacotaco") {
-            return done(null, { name: "Dave", username: username });
+            return done(null, { id: 0, name: "Peloni", username: username });
         } else {
             return done(null, false);
         }
@@ -26,12 +27,11 @@ passport.use(new LocalStrategy(
 );
 
 passport.serializeUser(function(user, done) {
-    done(null, 16);
-    //done(null, user.id);
+    done(null, user.username);
 });
 
-passport.deserializeUser(function(id, done) {
-    done(null, {id: id, name: "Unknown"});
+passport.deserializeUser(function(username, done) {
+    done(null, {id: 0, name: "Unknown", username: username });
 });
 
 var app = express();
@@ -52,9 +52,9 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/login', login);
+app.use('/', routes(express, passport));
+app.use('/users', users(express, passport));
+app.use('/login', login(express, passport));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

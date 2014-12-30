@@ -1,18 +1,18 @@
-var express = require('express');
-var passport = require('passport');
+module.exports = function(express, passport) {
 
-var router = express.Router();
+  var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res) {
+  /* GET home page. */
+  router.get('/', function(req, res) {
 
-  res.render('login', { title: 'Login', failed: req.query.failed });
-});
+    res.render('login', { title: 'Login', failed: req.query.failed });
+  });
 
-router.post('/', passport.authenticate('local', 
-  { successRedirect: '/',
-    failureRedirect: '/login?failed=true',
-    failureFlash: "Login failure" })
-);
+  router.post('/', passport.authenticate('local', 
+    { successRedirect: '../',
+      failureRedirect: '/login?failed=true',
+      failureFlash: "Login failure" })
+  );
 
-module.exports = router;
+  return router;
+};
