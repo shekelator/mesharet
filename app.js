@@ -10,6 +10,7 @@ var flash = require('connect-flash');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -25,6 +26,21 @@ passport.use(new LocalStrategy(
         }
     })
 );
+
+var facebookAppId = process.env.FACEBOOK_APPID || "abcde123";
+var facebookSecret = process.env.FACEBOOK_SECRET || "lskjdf0923jfsdf";
+var hostname = process.env.HOSTNAME || "localhost";
+passport.use(new FacebookStrategy({
+    clientID: facebookAppId,
+    clientSecret: facebookSecret,
+    callbackURL: "http://" + hostname + "/auth/facebook/callback"
+},
+    function(accessToken, refreshToken, profile, done) {
+        console.log("Received token for " + profile.name.familyName);
+        done(null, profile);
+    }
+));
+
 
 passport.serializeUser(function(user, done) {
     done(null, user.username);
