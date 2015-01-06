@@ -20,7 +20,7 @@ passport.use(new LocalStrategy(
     function(username, password, done) {
         console.log("Username: " + username);
         if(password === "tacotaco") {
-            return done(null, { id: 0, name: "Peloni", username: username });
+            return done(null, { id: username, name: {familyName: "Peloni"}, displayName: "admin", provider: "local" });
         } else {
             return done(null, false);
         }
@@ -43,11 +43,11 @@ passport.use(new FacebookStrategy({
 
 
 passport.serializeUser(function(user, done) {
-    done(null, user.username);
+    done(null, user.id);
 });
 
 passport.deserializeUser(function(username, done) {
-    done(null, {id: 0, name: "Unknown", username: username });
+    done(null, {id: username, name: "Unknown" });
 });
 
 var app = express();
