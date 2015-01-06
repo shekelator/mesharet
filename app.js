@@ -33,7 +33,7 @@ var hostname = process.env.HOSTNAME || "localhost";
 passport.use(new FacebookStrategy({
     clientID: facebookAppId,
     clientSecret: facebookSecret,
-    callbackURL: "http://" + hostname + "/auth/facebook/callback"
+    callbackURL: "http://" + hostname + "/login/facebookCallback"
 },
     function(accessToken, refreshToken, profile, done) {
         console.log("Received token for " + profile.name.familyName);
