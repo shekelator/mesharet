@@ -20,12 +20,5 @@ module.exports = function(express, passport) {
     passport.authenticate('facebook', {successRedirect: '../', failureRedirect: '/'})
   );
 
-// app.route('/auth/facebook').get(passport.authenticate('facebook'));
-// 
-// app.route('/auth/facebook/callback').get(
-//     passport.authenticate('facebook', {successRedirect: '/signup', failureRedirect: '/failed'})
-// );
-
-
   return router;
 };
