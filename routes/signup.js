@@ -12,7 +12,7 @@ module.exports = function(express, passport) {
   });
 
   router.post('/', isLoggedIn, function(req, res) {
-    var responsibility = new Responsibility(req.body['date'], req.body['type'], req.body['detail']);
+    var responsibility = new Responsibility(req.body["serviceId"], req.body['date'], req.body['type'], req.body['detail']);
     responsibilityRepository.set(responsibility, function() {
       res.render('signup', { title: 'Sign Up'});
     });

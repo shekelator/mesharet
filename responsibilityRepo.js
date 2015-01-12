@@ -1,4 +1,6 @@
-var MongoClient = require("mongodb").MongoClient;
+var Mongo = require("mongodb");
+var MongoClient = Mongo.MongoClient;
+var ObjectId = Mongo.ObjectID;
 var assert = require('assert');
 
 var connectionString = process.env.MONGO_CONNECTION || "mongodb://127.0.0.1/services";
@@ -12,7 +14,7 @@ var responsibilitySerializer = function(responsibility) {
 };
 
 var setService= function(responsibility, callback) {
-  var date = responsibility.date;
+  var serviceId = responsibility.serviceId;
 
   MongoClient.connect(connectionString, function(err, db) {
     if(err) {
@@ -20,7 +22,7 @@ var setService= function(responsibility, callback) {
     }
 
     db.collection("services")
-      .update({"date": date}, 
+      .update({"_id": ObjectId(serviceId)}, 
         responsibilitySerializer(responsibility), 
         {safe: true, w:1, multi: false, upsert: true}, 
         function(err, objects) {

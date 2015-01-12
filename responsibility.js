@@ -8,7 +8,7 @@ var responsibilityTypes = {
   "5": "Nursery"
 }
 
-var Responsibility = function(date, responsibilityType, detail) {
+var Responsibility = function(serviceId, date, responsibilityType, detail) {
 	var parsedDate = moment(date);
   if(!parsedDate.isValid()) {
     // TODO what to do here?
@@ -16,6 +16,7 @@ var Responsibility = function(date, responsibilityType, detail) {
   this.date = parsedDate; // TODO truncate times
   this.type = responsibilityType;
   this.detail = detail;
+  this.serviceId = serviceId;
 
   return this;
 };
