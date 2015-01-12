@@ -12,10 +12,19 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 
+
+
+
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
 var signup = require('./routes/signup');
+
+var facebookAppId = process.env.FACEBOOK_APPID || "abcde123";
+var facebookSecret = process.env.FACEBOOK_SECRET || "lskjdf0923jfsdf";
+var hostname = process.env.HOSTNAME || "localhost";
+var sessionSecret = process.env.SESSION_SECRET || "wat!???!!?!?";
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
@@ -28,9 +37,6 @@ passport.use(new LocalStrategy(
     })
 );
 
-var facebookAppId = process.env.FACEBOOK_APPID || "abcde123";
-var facebookSecret = process.env.FACEBOOK_SECRET || "lskjdf0923jfsdf";
-var hostname = process.env.HOSTNAME || "localhost";
 passport.use(new FacebookStrategy({
     clientID: facebookAppId,
     clientSecret: facebookSecret,
@@ -62,7 +68,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session( {secret: "wat!???!!?!?", resave: "false", saveUninitialized: true }));
+app.use(session( {secret: sessionSecret, resave: "false", saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
