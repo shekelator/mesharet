@@ -1,5 +1,5 @@
 var Responsibility = require('../responsibility');
-var responsibilityRepository = require('../responsibilityRepo');
+var serviceRepository = require('../serviceRepo');
 
 module.exports = function(express, passport) {
 
@@ -7,13 +7,18 @@ module.exports = function(express, passport) {
 
   /* GET home page. */
   router.get('/', isLoggedIn, function(req, res) {
-
-    res.render('signup', { title: 'Sign Up', failed: req.query.failed });
+    serviceRepository.getServices(function(err, services) {
+      if(err){
+        // throw 500 response
+      }
+      
+      res.render('signup', { title: 'Sign Up', failed: req.query.failed, services: services });
+    });
   });
 
   router.post('/', isLoggedIn, function(req, res) {
     var responsibility = new Responsibility(req.body["serviceId"], req.body['date'], req.body['type'], req.body['detail']);
-    responsibilityRepository.set(responsibility, function() {
+    serviceRepository.addResponsibility(responsibility, function() {
       res.render('signup', { title: 'Sign Up'});
     });
     console.log("Retrieved json for date: " + req.body["date"]);

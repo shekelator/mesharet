@@ -2,40 +2,16 @@ extends layout
 
 block content
 	h1 Sign up!
-	p
-		h3 10 January (Shemot)
-		table
-			tr
-				td Torah
-				td Exodus 1.1-6.1
-				td
-					a Sign up
-			tr
-				td Haftarah
-				td Isaiah 27.6 - 28.13; 29.22 - 29.23
-				td
-					a Sign up
-			tr
-				td Besorah
-				td TBD
-				td
-					a Sign up
-
-	p
-		h3 17 January (Vaera)
-		table
-			tr
-				td Torah
-				td Exodus 6.2-9.35
-				td
-					a Sign up
-			tr
-				td Haftarah
-				td Ezekiel 28.25-29.21
-				td
-					a Sign up
-			tr
-				td Besorah
-				td TBD
-				td
-					a Sign up
+	div 
+		for service in services
+			p
+				h3= service.date
+				p
+					span <i>#{service.title}</i>
+					table
+						for responsibility in service.responsibilities
+							tr
+								td= responsibility.type
+								td= responsibility.detail
+		else
+			p No services listed
