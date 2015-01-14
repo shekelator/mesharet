@@ -17,9 +17,18 @@ var Service = function(date, title) {
   }, this);
 
   this.deserialize = _.bind(function(obj) {
-    this.date = moment(obj.date).format("dddd, MMMM Do YYYY");
+    this.date = moment(obj.date);
     this.title = obj.title,
     this.responsibilities = obj.responsibilities;
+    return this;
+  }, this);
+
+  this.display = _.bind(function() {
+    return {
+      "date": this.date.format("dddd, MMMM Do YYYY"),
+      "title": this.title,
+      "responsibilities": this.responsibilities
+    };
   }, this);
 
   return this;
