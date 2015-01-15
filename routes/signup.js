@@ -11,16 +11,17 @@ module.exports = function(express, passport) {
       if(err){
         // throw 500 response
       }
-      
+
       res.render('signup', { title: 'Sign Up', failed: req.query.failed, services: services });
     });
   });
 
   router.post('/', isLoggedIn, function(req, res) {
-    var responsibility = new Responsibility(req.body["serviceId"], req.body['date'], req.body['type'], req.body['detail']);
-    serviceRepository.addResponsibility(responsibility, function() {
+    var svc = serviceRepository.getService(moment(req.body['date']).toJSON(), function(service) {
+      service.addResponsibility(req.body['type'], req.body['detail']);
       res.render('signup', { title: 'Sign Up'});
     });
+    
     console.log("Retrieved json for date: " + req.body["date"]);
   });
 

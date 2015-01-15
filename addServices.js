@@ -56,13 +56,13 @@ var getShabbatot = function(date, callback) {
 
 var translateHebcalLeyningToResponsibility = function(detail, key) {
   var mapping = {
-    "torah": "1",
-    "maftir": "2",
-    "haftarah": "3"
+    "torah": 1,
+    "maftir": 2,
+    "haftarah": 3
   };
 
-  return new Responsibility(null, mapping[key], detail);
-}
+  return { "type": mapping[key], "detail": detail };
+};
 
 var getServices = function() {
   getShabbatot("2015-01-07", function(err, shabbatot) {
@@ -79,7 +79,7 @@ var getServices = function() {
         serviceToCreate.addResponsibility(responsibility);
       });
 
-      serviceRepository.createService(serviceToCreate, function(err) {
+      serviceRepository.update(serviceToCreate.serialize(), function(err) {
         if(err) throw err;
       });
     }, function(err) {
