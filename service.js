@@ -35,7 +35,10 @@ var Service = function(date, title) {
   }, this);
 
   this.deserialize = _.bind(function(obj) {
-    this._id = obj._id;
+    if(obj._id) {
+      this._id = obj._id;
+    }
+    
     this.date = moment(obj.date);
     if(!this.date.isValid()) {
       throw new Error("Invalid date: " + obj.date);
@@ -47,12 +50,18 @@ var Service = function(date, title) {
   }, this);
 
   this.serialize = _.bind(function() {
-    return {
+    var result = {
       "_id": this._id,
       "date": this.date.toJSON(),
       "title": this.title,
       "responsibilities": this.responsibilities
     };
+
+    if(this._id) {
+      result._id = this._id;
+    }
+
+    return result;
   }, this);
 
   this.display = _.bind(function() {

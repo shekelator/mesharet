@@ -1,5 +1,6 @@
 var Responsibility = require('../responsibility');
 var serviceRepository = require('../serviceRepo');
+var _ = require('lodash');
 
 module.exports = function(express, passport) {
 
@@ -11,8 +12,11 @@ module.exports = function(express, passport) {
       if(err){
         // throw 500 response
       }
-
-      res.render('signup', { title: 'Sign Up', failed: req.query.failed, services: services });
+      var servicesToDisplay = _.map(services, function(s) {
+        return s.display();
+      });
+      
+      res.render('signup', { title: 'Sign Up', failed: req.query.failed, services: servicesToDisplay });
     });
   });
 
@@ -21,7 +25,7 @@ module.exports = function(express, passport) {
       service.addResponsibility(req.body['type'], req.body['detail']);
       res.render('signup', { title: 'Sign Up'});
     });
-    
+
     console.log("Retrieved json for date: " + req.body["date"]);
   });
 

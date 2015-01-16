@@ -76,10 +76,10 @@ var getServices = function() {
 
       var responsibilities = _.map(item.leyning, translateHebcalLeyningToResponsibility);
       _.forEach(responsibilities, function(responsibility) {
-        serviceToCreate.addResponsibility(responsibility);
+        serviceToCreate.addResponsibility(responsibility.type, responsibility.detail);
       });
 
-      serviceRepository.update(serviceToCreate.serialize(), function(err) {
+      serviceRepository.createService(serviceToCreate, function(err) {
         if(err) throw err;
       });
     }, function(err) {

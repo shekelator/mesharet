@@ -39,23 +39,15 @@ var addResponsibility= function(responsibility, callback) {
 
 
 var createService = function(service, callback) {
-  var serviceId = service.serviceId;
-
   MongoClient.connect(connectionString, function(err, db) {
     if(err) {
      throw err; 
     }
 
-    var serializedService = {
-      "date": service.date.toJSON(),
-      "responsibilities": _.map(service.responsibilities, responsibilitySerializer),
-      "title": service.title
-    };
+    var serializedService = service.serialize();
 
     db.collection("services")
-      .update({"date": serializedService.date}, 
-        serializedService,
-        {safe: true, w:1, multi: false, upsert: true}, 
+      .insert([serializedService],
         function(err, objects) {
           if(err) {
             console.warn(err.message);
@@ -72,10 +64,11 @@ var updateService = function(service, callback) {
     if(err) {
      throw err; 
     }
+    var serializedService = service.serialize();
 
     db.collection("services")
-      .update({"date": service.date}, 
-        service,
+      .update({"date": serializedService.date}, 
+        serializedService,
         {safe: true, w:1, multi: false, upsert: true}, 
         function(err, objects) {
           if(err) {
