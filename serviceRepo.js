@@ -90,19 +90,16 @@ var getService = function(date, callback) {
 
     db.collection("services")
       .findOne({ "date": date},
-        function(err, objects) {
+        function(err, retrieved) {
           if(err) {
             console.warn(err.message);
           }
 
-          var result = _.map(objects, function(obj) {
-            var svc = new Service();
-            svc.deserialize(obj);
-            return svc;
-          });
+          var svc = new Service();
+          svc.deserialize(retrieved);
 
           db.close();
-          callback(err, result);
+          callback(err, svc);
         });
   });
 };

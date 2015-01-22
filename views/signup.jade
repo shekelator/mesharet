@@ -2,16 +2,15 @@ extends layout
 
 block content
 	h1 Sign up!
-	div 
+	.signup-calendar
 		for service in services
-			p
-				h3= service.date
-				p
-					span <i>#{service.title}</i>
-					table
-						for responsibility in service.responsibilities
-							tr
-								td= responsibility.description
-								td= responsibility.detail
+			.service-listing
+				h3 #{service.date} &nbsp; 
+					span.service-title #{service.title}
+				table.service-entry
+					for responsibility in service.responsibilities
+						tr
+							td.responsibility-description= responsibility.description
+							td.responsibility-detail= responsibility.detail
 		else
 			p No services listed

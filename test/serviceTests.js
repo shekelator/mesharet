@@ -6,7 +6,7 @@ describe('service', function() {
 		it('should create object with display method', function(done) {
 			var svc = new Service('2015-06-11', 'Parashat Miqqetz');
 			(typeof svc.display).should.equal("function");
-      svc.display()['date'].should.equal('Thursday, June 11th 2015');
+      svc.display()['date'].should.equal('June 11 2015');
       svc.responsibilities.length.should.equal(0);
       svc.title.should.equal("Parashat Miqqetz");
       done();

@@ -1,5 +1,4 @@
 var moment = require('moment');
-var Responsibility = require('./responsibility');
 var _ = require('lodash');
 
 var responsibilityTypes = {
@@ -66,7 +65,7 @@ var Service = function(date, title) {
 
   this.display = _.bind(function() {
     return {
-      "date": this.date.format("dddd, MMMM Do YYYY"),
+      "date": this.date.format("MMMM D YYYY"),
       "title": this.title,
       "responsibilities": _.map(this.responsibilities, displayResponsibility)
     };

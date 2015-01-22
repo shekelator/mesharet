@@ -6,3 +6,28 @@ body {
 a {
   color: #00B7FF;
 }
+
+div.signup-calendar .service-listing {
+	padding: .25em;
+}
+
+div.signup-calendar .service-listing:nth-child(even) {
+	background-color: lightgray;
+}
+
+div.signup-calendar span.service-title {
+	color: gray;
+}
+
+.signup-calendar table.service-entry  {
+	margin-left: 2em;
+}
+
+.signup-calendar table.service-entry td {
+	padding: .25em;
+}
+
+.signup-calendar td.responsibility-description {
+	color: gray;
+	width: 150px;
+}
