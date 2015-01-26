@@ -67,7 +67,7 @@ var Service = function(date, title) {
     return {
       "date": this.date.format("MMMM D YYYY"),
       "title": this.title,
-      "responsibilities": _.map(this.responsibilities, displayResponsibility)
+      "responsibilities": _.map(_.sortBy(this.responsibilities, "type"), displayResponsibility)
     };
   }, this);
 

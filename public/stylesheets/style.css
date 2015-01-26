@@ -11,6 +11,11 @@ div.signup-calendar .service-listing {
 	padding: .25em;
 }
 
+div.signup-calendar .add-responsibility-link {
+	font-size: x-small;
+	margin-left: 3em;
+}
+
 div.signup-calendar .service-listing:nth-child(even) {
 	background-color: lightgray;
 }

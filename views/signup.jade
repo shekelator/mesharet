@@ -7,6 +7,7 @@ block content
 			.service-listing
 				h3 #{service.date} &nbsp; 
 					span.service-title #{service.title}
+					a.add-responsibility-link(href="") Add
 				table.service-entry
 					for responsibility in service.responsibilities
 						tr
