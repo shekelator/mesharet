@@ -22,7 +22,7 @@ module.exports = function(express, passport) {
         })
         .value();
 
-      res.render('signup', { title: 'Sign Up', failed: req.query.failed, services: servicesToDisplay });
+      res.render('signup', { title: 'Sign Up', failed: req.query.failed, services: servicesToDisplay, user: req.user });
     });
   });
 

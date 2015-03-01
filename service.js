@@ -65,6 +65,7 @@ var Service = function(date, title) {
 
   this.display = _.bind(function() {
     return {
+      "id": this._id,
       "date": this.date.format("MMMM D YYYY"),
       "title": this.title,
       "responsibilities": _.map(_.sortBy(this.responsibilities, "type"), displayResponsibility)

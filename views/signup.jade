@@ -2,16 +2,19 @@ extends layout
 
 block content
 	h1 Sign up!
+	p Hello #{user.name}!
 	.signup-calendar
 		for service in services
 			.service-listing
 				h3 #{service.date} &nbsp; 
 					span.service-title #{service.title}
-					a.add-responsibility-link(href="") Add
+					a.add-responsibility-link(href="/service/#{service.id}/add") Add
 				table.service-entry
 					for responsibility in service.responsibilities
 						tr
 							td.responsibility-description= responsibility.description
 							td.responsibility-detail= responsibility.detail
+							td
+								a.signup-link(href="/service/#{service.id}/signup/#{responsibility.type}") +
 		else
 			p No services listed
