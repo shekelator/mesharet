@@ -10,7 +10,8 @@ var connectionString = process.env.MONGO_CONNECTION || "mongodb://127.0.0.1/serv
 var responsibilitySerializer = function(responsibility) {
   return {
       "type": responsibility.type,
-      "detail": responsibility.detail
+      "detail": responsibility.detail,
+      "volunteer": responsibility.volunteer
   };
 };
 

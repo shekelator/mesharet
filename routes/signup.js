@@ -26,6 +26,13 @@ module.exports = function(express, passport) {
     });
   });
 
+  router.post('/:serviceId/:responsibilityType', isLoggedIn, function(req, res) {
+    var serviceId = req.params.serviceId;
+    var responsibilityType = req.params.responsibilityType;
+    return res.status(200).send("Signing up " + req.user.id + " for " + responsibilityType + " at service " + serviceId + "; " + JSON.stringify(req.user));
+    //return res.redirect('/signup');
+  });
+
   router.post('/', isLoggedIn, function(req, res) {
     var svc = serviceRepository.getService(moment(req.body['date']).toJSON(), function(err, service) {
       if(err) {

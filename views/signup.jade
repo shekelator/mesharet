@@ -1,8 +1,14 @@
 extends layout
 
+
 block content
 	h1 Sign up!
+	// form(method="POST", action="/signup")
+	// 	input#service-id(type="hidden")
+	// 	input#responsibility-type(type="hidden")
 	p Hello #{user.name}!
+
+
 	.signup-calendar
 		for service in services
 			.service-listing
@@ -15,6 +21,8 @@ block content
 							td.responsibility-description= responsibility.description
 							td.responsibility-detail= responsibility.detail
 							td
-								a.signup-link(href="/service/#{service.id}/signup/#{responsibility.type}") +
+								form(method="POST", action="/signup/#{service.id}/#{responsibility.type}")
+									button(type="submit") Sign up
 		else
 			p No services listed
+	script(type="text/javascript",src="/javascripts/signup.js")
