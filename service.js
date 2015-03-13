@@ -14,7 +14,8 @@ var displayResponsibility = function(resp) {
   return {
     "type": resp.type,
     "description": responsibilityTypes[resp.type],
-    "detail": resp.detail
+    "detail": resp.detail,
+    "volunteer": resp.volunteer
   };
 };
 
@@ -31,6 +32,16 @@ var Service = function(date, title) {
 
   this.addResponsibility = _.bind(function(responsibilityType, detail) {
     this.responsibilities.push({ "type": Number(responsibilityType), "detail": detail });
+  }, this);
+
+  this.signUp = _.bind(function(responsibilityType, id) {
+    var responsibilitySignedUpFor = _.find(this.responsibilities, function(resp) {
+      return resp.type === responsibilityType;
+    });
+
+    if(responsibilitySignedUpFor) {
+      responsibilitySignedUpFor.volunteer = id;
+    }
   }, this);
 
   this.deserialize = _.bind(function(obj) {

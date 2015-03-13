@@ -82,6 +82,28 @@ var updateService = function(service, callback) {
   });
 };
 
+var getServiceById = function(id, callback) {
+  MongoClient.connect(connectionString, function(err, db) {
+    if(err) {
+     throw err; 
+    }
+
+    db.collection("services")
+      .findOne({ "_id": ObjectId(id)},
+        function(err, retrieved) {
+          if(err) {
+            console.warn(err.message);
+          }
+
+          var svc = new Service();
+          svc.deserialize(retrieved);
+
+          db.close();
+          callback(err, svc);
+        });
+  });  
+};
+
 var getService = function(date, callback) {
 
   MongoClient.connect(connectionString, function(err, db) {
@@ -136,7 +158,8 @@ var repository = {
   update: updateService,
   createService: createService,
   getServices: getServices,
-  getService: getService
+  getService: getService,
+  getServiceById: getServiceById
 };
 
 module.exports = repository;
