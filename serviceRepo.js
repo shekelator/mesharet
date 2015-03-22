@@ -68,7 +68,7 @@ var updateService = function(service, callback) {
     var serializedService = service.serialize();
 
     db.collection("services")
-      .update({"date": serializedService.date}, 
+      .update({"_id": ObjectId(serializedService._id)}, 
         serializedService,
         {safe: true, w:1, multi: false, upsert: true}, 
         function(err, objects) {

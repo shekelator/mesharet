@@ -35,8 +35,9 @@ var Service = function(date, title) {
   }, this);
 
   this.signUp = _.bind(function(responsibilityType, id) {
+
     var responsibilitySignedUpFor = _.find(this.responsibilities, function(resp) {
-      return resp.type === responsibilityType;
+      return resp.type === Number(responsibilityType);
     });
 
     if(responsibilitySignedUpFor) {

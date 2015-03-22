@@ -40,11 +40,12 @@ describe('service', function() {
       svc.addResponsibility(1, "Exodus 2.1-6.1");
       svc.addResponsibility(2, "Numbers 29.10-17");
       svc.addResponsibility(6, "Volunteer");
+      svc.signUp(1, "Kenny G.");
 
       var serialized = svc.serialize();
       serialized.should.have.property("date", "2015-06-11T04:00:00.000Z");
       serialized.should.have.property("title", "Parashat Vaera");
-      serialized.responsibilities.should.containEql({type: 1, detail: "Exodus 2.1-6.1"});
+      serialized.responsibilities.should.containEql({type: 1, detail: "Exodus 2.1-6.1", volunteer: "Kenny G."});
       serialized.responsibilities.should.containEql({type: 6, detail: "Volunteer"});
 
       // deserializes properly
@@ -59,5 +60,24 @@ describe('service', function() {
       }).should.throw("Invalid date: 2015-06-42");
     });
     
+    it('serializes signup', function(){
+      var svc = new Service('2015-06-11', 'Parashat Vaera');
+      svc.addResponsibility(1, "Exodus 2.1-6.1");
+      svc.addResponsibility(2, "Numbers 29.10-17");
+      svc.addResponsibility(6, "Volunteer");
+      svc.signUp(2, "tacos");
+
+      var serialized = svc.serialize();
+      var volunteer = serialized.responsibilities.should.containEql({type: 2, detail: "Numbers 29.10-17", volunteer: "tacos"});
+    });
+
+    it('serializes signup coercing string type Id', function() {
+      var svc = new Service('2015-06-11', 'Parashat Vaera');
+      svc.addResponsibility(2, "Numbers 29.10-17");
+      svc.signUp("2", "Ron");
+
+      var serialized = svc.serialize();
+      var volunteer = serialized.responsibilities.should.containEql({type: 2, detail: "Numbers 29.10-17", volunteer: "Ron"});
+    })
   });
 });

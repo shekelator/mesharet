@@ -31,13 +31,15 @@ module.exports = function(express, passport) {
     var responsibilityType = req.params.responsibilityType;
 
     var service = serviceRepository.getServiceById(serviceId, function(err, service) {
-
       service.signUp(responsibilityType, req.user.id);
 
       serviceRepository.update(service, function(err, updatedService) {
         if(err) {
           return res.status(500).send(err);
         }
+
+        res.redirect("/signup");
+        /*
         serviceRepository.getServices(function(err, services) {
           if(err) {
             return res.status(500).send(err);
@@ -53,6 +55,7 @@ module.exports = function(express, passport) {
 
           res.render('signup', { title: 'Sign Up', services: servicesToDisplay, user: req.user});
         });
+*/
       });
     });
   });
@@ -69,7 +72,7 @@ module.exports = function(express, passport) {
         if(err) {
           return res.status(500).send(err);
         }
-      
+
         serviceRepository.getServices(function(err, services) {
           if(err) {
             return res.status(500).send(err);
