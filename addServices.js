@@ -1,6 +1,5 @@
 var serviceRepository = require('./serviceRepo');
 var Service = require('./service');
-var Responsibility = require('./responsibility');
 var request = require("request");
 var moment = require("moment");
 var _ = require("lodash");
@@ -76,7 +75,9 @@ var getServices = function() {
 
       var responsibilities = _.map(item.leyning, translateHebcalLeyningToResponsibility);
       _.forEach(responsibilities, function(responsibility) {
-        serviceToCreate.addResponsibility(responsibility.type, responsibility.detail);
+        if(responsibility.type) {
+          serviceToCreate.addResponsibility(responsibility.type, responsibility.detail);
+        }
       });
 
       serviceRepository.createService(serviceToCreate, function(err) {
