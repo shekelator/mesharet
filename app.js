@@ -23,10 +23,15 @@ var facebookSecret = process.env.FACEBOOK_SECRET || "lskjdf0923jfsdf";
 var hostname = process.env.HOSTNAME || "localhost";
 var sessionSecret = process.env.SESSION_SECRET || "wat!???!!?!?";
 
+var userDictionary = {
+        "dave": "tacotaco",
+        "pete": "greenyo"
+    };
+
 passport.use(new LocalStrategy(
     function(username, password, done) {
         console.log("Username: " + username);
-        if(password === "tacotaco") {
+        if(password === userDictionary[username.toLowerCase()]) {
             return userRepo.get(username, done);
         } else {
             return done(null, false);

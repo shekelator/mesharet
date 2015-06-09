@@ -39,23 +39,6 @@ module.exports = function(express, passport) {
         }
 
         res.redirect("/signup");
-        /*
-        serviceRepository.getServices(function(err, services) {
-          if(err) {
-            return res.status(500).send(err);
-          }
-
-          var sortedServices = _.sortBy(services, function(s) {
-            return s.date.unix();
-          });
-
-          var servicesToDisplay = _.map(sortedServices, function(s) {
-            return s.display();
-          });
-
-          res.render('signup', { title: 'Sign Up', services: servicesToDisplay, user: req.user});
-        });
-*/
       });
     });
   });
