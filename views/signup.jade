@@ -22,7 +22,7 @@ block content
 								else
 									p= responsibility.volunteer
 							td
-								if responsibility.volunteer
+								if responsibility.volunteer === user.id
 									form(method="POST", action="/unsignup/#{service.id}/#{responsibility.type}")
 										button(type="submit") Cancel
 

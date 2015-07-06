@@ -7,24 +7,7 @@ module.exports = function(express, passport) {
   var router = express.Router();
 
   /* GET home page. */
-  router.get('/', isLoggedIn, function(req, res) {
-    serviceRepository.getServices(function(err, services) {
-      if(err){
-        // throw 500 response
-      }
-
-      var servicesToDisplay = _(services)
-        .sortBy(function(s) {
-          return s.date.unix();
-        })
-        .map(function(s) {
-          return s.display();
-        })
-        .value();
-
-      res.render('signup', { title: 'Sign Up', failed: req.query.failed, services: servicesToDisplay, user: req.user });
-    });
-  });
+  router.get('/', isLoggedIn, displayServicesCallback);
 
   router.post('/:serviceId/:responsibilityType', isLoggedIn, function(req, res) {
     var serviceId = req.params.serviceId;
@@ -56,21 +39,7 @@ module.exports = function(express, passport) {
           return res.status(500).send(err);
         }
 
-        serviceRepository.getServices(function(err, services) {
-          if(err) {
-            return res.status(500).send(err);
-          }
-
-          var sortedServices = _.sortBy(services, function(s) {
-            return s.date.unix();
-          });
-
-          var servicesToDisplay = _.map(sortedServices, function(s) {
-            return s.display();
-          });
-
-          res.render('signup', { title: 'Sign Up', services: servicesToDisplay});
-        });
+        displayServicesCallback(req, res);
       });
     });
 
@@ -80,8 +49,7 @@ module.exports = function(express, passport) {
   return router;
 };
 
-// TODO use this
-function displayServicesCallback(err, res) {
+function displayServicesCallback(req, res) {
   serviceRepository.getServices(function(err, services) {
     if(err) {
       return res.status(500).send(err);
@@ -95,7 +63,7 @@ function displayServicesCallback(err, res) {
       return s.display();
     });
 
-    res.render('signup', { title: 'Sign Up', services: servicesToDisplay});
+    res.render('signup', { title: 'Sign Up', failed: req.query.failed, services: servicesToDisplay, user: req.user});
   });
 }
 
