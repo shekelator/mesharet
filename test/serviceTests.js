@@ -34,6 +34,7 @@ describe('service', function() {
     });
   });
 
+
   describe("#serialize", function() {
     it('should serialize and deserialize properly', function() {
       var svc = new Service('2015-06-11', 'Parashat Vaera');
@@ -79,5 +80,18 @@ describe('service', function() {
       var serialized = svc.serialize();
       var volunteer = serialized.responsibilities.should.containEql({type: 2, detail: "Numbers 29.10-17", volunteer: "Ron"});
     })
+  });
+
+  describe("#cancel", function() {
+    it('should cancel signups', function() {
+      var svc = new Service('2015-06-11', 'Parashat Miqqetz');
+      svc.addResponsibility(1, "Exodus 2.1-6.1");
+      svc.addResponsibility(3, "Exodus 2");
+      svc.signUp("3", "Ron");
+      svc.responsibilities[1].volunteer.should.equal("Ron");
+      svc.cancel("3", "Ron");
+
+      (svc.responsibilities[1].volunteer === null).should.be.true;
+    });
   });
 });

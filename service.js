@@ -22,6 +22,12 @@ var displayResponsibility = function(resp) {
 var Service = function(date, title) {
   var parsedDate = moment(date);
 
+  var getResponsibility = function(responsibilityType, responsibilities) {
+    return _.find(responsibilities, function(resp) {
+      return resp.type === Number(responsibilityType);
+    });
+  };
+
   if(!parsedDate.isValid()) {
     throw new Error("Invalid date: " + date);
   }
@@ -36,12 +42,18 @@ var Service = function(date, title) {
 
   this.signUp = _.bind(function(responsibilityType, id) {
 
-    var responsibilitySignedUpFor = _.find(this.responsibilities, function(resp) {
-      return resp.type === Number(responsibilityType);
-    });
+    var responsibilitySignedUpFor = getResponsibility(responsibilityType, this.responsibilities);
 
     if(responsibilitySignedUpFor) {
       responsibilitySignedUpFor.volunteer = id;
+    }
+  }, this);
+
+  this.cancel = _.bind(function(responsibilityType, userId) {
+    var responsibilitySignedUpFor = getResponsibility(responsibilityType, this.responsibilities);
+
+    if(responsibilitySignedUpFor && responsibilitySignedUpFor.volunteer === userId) {
+      responsibilitySignedUpFor.volunteer = null;
     }
   }, this);
 
